@@ -1,0 +1,15 @@
+{
+  "name": "mediapp",
+  "version": "1.0.0",
+  "description": "Mini Projeto da Disciplina ProgramacaoII",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ana Teixeira",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.4"
+  }
+}
