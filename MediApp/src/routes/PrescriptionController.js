@@ -24,7 +24,7 @@ router.post('/uploadPrescription/:id', upload.single('file'), async (req, res) =
     const { id } = req.params;
     let prescription = await PrescriptionService.getPrescription(id);
 
-    const file = "./MediApp/prescriptions/" + req.file.originalname;
+    const file = "./MediApp/src/prescriptions/" + req.file.originalname;
     prescription = await PrescriptionService.updatePrescription(id, { file });
 
     return res.status(200).send(prescription);
