@@ -1,11 +1,11 @@
+import bcrypt from 'bcrypt';
 import express from "express";
+import verifyToken from '../middleware/authMiddleware.js';
+import doctorService from "../services/DoctorService.js";
 import appointmentController from "./AppointmentController.js";
 import doctorController from "./DoctorController.js";
 import pacientController from "./PacientController.js";
 import prescriptionController from "./PrescriptionController.js";
-import doctorService from "../services/DoctorService.js";
-import bcrypt from 'bcrypt';
-import verifyToken from '../middleware/authMiddleware.js';
 
 import jwt from 'jsonwebtoken';
 
@@ -18,7 +18,7 @@ router.get(
     }
 );
 
-// mapeamento do login
+// Mapeamento do login
 router.post('/login', async (req,res) => {
     try {
         const { login, password } = req.body;
