@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'; // HOOK = gancho
 import Link from 'next/link';
 
 export default function DoctorList() {
-    const [doctors, setDoctors] = useState(null);
+    const [doctors, setDoctors] = useState(new Array());
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function DoctorList() {
 
     return (
         <>
-            <Link href="/home">Voltar</Link>
+            <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/home">Voltar</Link>
             <table>
                 <thead>
                     <tr>
@@ -61,7 +61,7 @@ export default function DoctorList() {
                             <td className='border border-slate-300 text-center'>
                                 <button onClick={(e) => deleteDoctor(doctor._id)} className='bg-red-500 p-2 inline-block text-white text-sm'>Delete</button></td>
                             <td className='border border-slate-300 text-center'>
-                                <Link href={`/doctor/edit/${doctor._id}`} className='bg-yellow-500 p-2 inline-block ml-3 text-white text-sm'>Edit</Link></td>
+                            <Link href={`/doctor/edit/${doctor._id}`} className='bg-yellow-500 p-2 inline-block ml-3 text-white text-sm'>Edit</Link></td>
                         </tr>
                     ))}
                 </tbody>
