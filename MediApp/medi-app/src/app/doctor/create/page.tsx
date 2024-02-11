@@ -15,7 +15,6 @@ export default function DoctorCreate() {
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [token, setToken] = useState<string>('');
 
     const addDoctor = async (e: any) => {
         e.preventDefault();
@@ -34,15 +33,12 @@ export default function DoctorCreate() {
                 email: email,
                 phone: phone
             }
-            console.log(sessionStorage.getItem("token"));
-            if (sessionStorage.getItem("token") == null) {
-                setToken('');
-            }
+
             const add = await fetch('http://127.0.0.1:3001/postDoctor', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': sessionStorage.getItem("token") || ''
                 },
                 body: JSON.stringify(formData)
             });
@@ -62,7 +58,7 @@ export default function DoctorCreate() {
 
     return (
         <>
-            <Link href="/home">Voltar</Link>
+            <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/home">Voltar</Link>
             <form className='w-full' onSubmit={addDoctor}>
                 <span className='font-bold text-yellow-500 py-2 block underline text-2xl'>Formulário Criação de Médico</span>
                 <div className='w-full py-2'>
