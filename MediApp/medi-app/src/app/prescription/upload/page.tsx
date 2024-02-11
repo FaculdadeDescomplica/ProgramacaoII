@@ -28,7 +28,7 @@ export default function PrescriptionCreate() {
     const [file, setFile] = useState<Blob>();
     const [error, setError] = useState<string | unknown>('');
 
-    const [prescriptions, setPrescriptions] = useState(null);
+    const [prescriptions, setPrescriptions] = useState(new Array());
 
     const uploadPrescription = async (id: any) => {
         try {
@@ -76,9 +76,35 @@ export default function PrescriptionCreate() {
         }
     };
 
+    const generatePrescription = async (id: any) => {
+        try {
+
+            const res = await fetch('http://127.0.0.1:3001/generatePrescription/' + id, {
+                method: 'GET',
+                headers: {
+                    'Authorization': sessionStorage.getItem("token") || ''
+                },
+            });
+
+            // handle the error
+            if (!res.ok)
+                throw new Error(await res.text());
+
+            const content = await res.json();
+
+            if (content._id) {
+                window.location.reload();
+            } else {
+                setError(content.error);
+            }
+        } catch (error) {
+            setError(error);
+        }
+    }
+
     return (
         <>
-            <Link href="/home">Voltar</Link>
+            <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/home">Voltar</Link>
             <table>
                 <thead>
                     <tr>
@@ -99,6 +125,7 @@ export default function PrescriptionCreate() {
 
                             {!prescription.file && <td className='border border-slate-300 text-center'> <input type="file" name="file" onChange={(e) => setFile(e.target.files?.[0])} /></td>}
                             {!prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => uploadPrescription(prescription._id)} className='bg-orange-500 p-2 inline-block text-white text-sm'>Upload</button></td>}
+                            {!prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => generatePrescription(prescription._id)} className='bg-orange-500 p-2 inline-block text-white text-sm'>Gerar Prescrição</button></td>}
                             {prescription.file && <td className='border border-slate-300 text-center'><button onClick={(e) => showFile(prescription._id)} className='bg-green-500 p-2 inline-block text-white text-sm'>Ver Arquivo</button></td>}
                         </tr>
                     ))}
