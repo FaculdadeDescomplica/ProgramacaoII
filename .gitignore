@@ -1,0 +1,7 @@
+MediApp/medi-app/.next/
+MediApp/medi-app/node_modules/
+MediApp/src/node_modules/
+MediApp/src/.vscode/
+MediApp/package-lock.json
+MediApp/src/package-lock.json
+MediApp/medi-app/package-lock.json
