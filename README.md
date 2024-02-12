@@ -23,7 +23,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
   * para aula, foi utilizado o VSCode
 * Instalou o navegador **da sua preferência**;
   * para aula, foi utilizado o Google Chrome;
-* Instalou o DBCompass para trabalhar com MongoDB **(e assistiu o módulo 3)**;
+* Instalou o Mongo DBCompass para trabalhar com MongoDB **(e assistiu o módulo 3)**;
 * Criou sua conta para utilizar o Postman. A instalação do Postman Desktop é **opcional**, pois você pode utilizar no navegador.
 
 ### ❗️Estrutura
@@ -37,7 +37,7 @@ A estrutura **básica** do projeto está separada da seguinte forma:
 ### 🚀 Execução do Projeto
 
 Foi explicada em aula várias vezes, mas segue:
-- o backend é subir um projeto node padrão
+- o backend é subir um projeto node padrão, ``` node index.js ``` na raiz da pasta do backend ou utilizar o plugin CodeRunner como fizemos em aula;
 - e no frontend utilizando o comando ``` npm run dev ``` na raiz da pasta do frontend.
 > Lembrando que para subir as duas partes, você precisará de terminais e portas diferentes.
 
