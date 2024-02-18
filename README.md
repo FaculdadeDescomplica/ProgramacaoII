@@ -41,6 +41,8 @@ Foi explicada em aula várias vezes, mas segue:
 - e no frontend utilizando o comando ``` npm run dev ``` na raiz da pasta do frontend.
 > Lembrando que para subir as duas partes, você precisará de terminais e portas diferentes.
 
+**ATENÇÃO:** nas coleções de validação da aplicação via Postman, lembre-se de verificar (ou criar) o arquivo de ambiente (_environment_) e verificar a porta que sua aplicação está sendo disponibilizada. Implemente as requisições extras que você precisar.
+
 ### ✨ Ajustes e melhorias
 
 O projeto está finalizado e para **garantir** o funcionamento correto, e **possíveis dúvidas** que você pode ter, foram feitas algumas alterações que podem ser encontradas nos commits abaixo.
