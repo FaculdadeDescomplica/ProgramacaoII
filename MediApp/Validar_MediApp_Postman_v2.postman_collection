@@ -1,0 +1,609 @@
+{
+	"info": {
+		"_postman_id": "c4a1e7d7-6475-4b80-bb5f-06f65db49878",
+		"name": "Validar MediApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32075395",
+		"_collection_link": "https://grey-resonance-892333.postman.co/workspace/Descomplica-24~4d56aaf3-589c-4ee5-a577-14d7fb2060db/collection/32075395-c4a1e7d7-6475-4b80-bb5f-06f65db49878?action=share&source=collection_link&creator=32075395"
+	},
+	"item": [
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "Create Doctor",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: \"http://localhost:3001/login\",\r",
+									"    method:\"POST\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({ login: \"jmendes\", password: \"1234X\" })\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    postman.setEnvironmentVariable(\"token\", res.json().token);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var id = jsonData._id;\r",
+									"\r",
+									"pm.test(\"Must return status code 201 and test values\", () =>{\r",
+									"    pm.expect(jsonData.name).to.be.equal(\"Ana Teixeira\");\r",
+									"    pm.expect(jsonData.login).to.be.equal(\"anateixeira\");\r",
+									"    pm.expect(jsonData.password).to.not.be.undefined;\r",
+									"    pm.expect(jsonData.medicalSpecialty).to.be.equal(\"Nutrologia\");\r",
+									"    pm.expect(jsonData.medicalRegistration).to.be.equal(\"90931\");\r",
+									"    pm.expect(jsonData.email).to.be.equal(\"anateixeira@gg.com\");\r",
+									"    pm.expect(jsonData.phone).to.be.equal(\"31 98875-3233\");\r",
+									"\r",
+									"    //Assert response status code\r",
+									"    pm.response.to.have.status(201);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: \"localhost:3001/doctors/\" + id,\r",
+									"    method:\"DELETE\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'Authorization': pm.environment.get(\"token\")\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: \"localhost:3001/getDoctor/\" + id,\r",
+									"    method:\"GET\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'Authorization': pm.environment.get(\"token\")\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.expect(pm.responseBody).to.be.equal(undefined);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ana Teixeira\",\r\n    \"login\": \"anateixeira\",\r\n    \"password\": \"1234X\",\r\n    \"medicalSpecialty\": \"Nutrologia\",\r\n    \"medicalRegistration\": \"90931\",\r\n    \"email\": \"anateixeira@gg.com\",\r\n    \"phone\": \"31 97564-3233\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/postDoctor"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Doctor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/getDoctor/659f79d7b035dccba12b3873"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Doctors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/doctors/"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Doctor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"65a5cf97b60f6ce0c41c6dd9\",\r\n    \"name\": \"Joao Mendes Filho de Jesus\",\r\n    \"login\": \"jmendesf\",\r\n    \"password\": \"$2b$10$Kej78U3rCXx6BC9LVvtHhOsdWhQtjLuBeGeQaJ1ZbmNOzyTB/1pH2\",\r\n    \"medicalSpecialty\": \"Psiquiatra\",\r\n    \"medicalRegistration\": \"17607\",\r\n    \"email\": \"jmendes@gg.com\",\r\n    \"phone\": \"31 92232-3233\",\r\n    \"createdAt\": \"2024-01-16T00:36:39.150Z\",\r\n    \"__v\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/doctors/65a5cf97b60f6ce0c41c6dd9"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Doctor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/doctors/65a5cf97b60f6ce0c41c6dd9"
+					},
+					"response": []
+				},
+				{
+					"name": "Test Doctor Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"var id = jsonData._id;\r",
+									"\r",
+									"pm.test(\"Must return status code 201 and test values\", () =>{\r",
+									"    pm.expect(jsonData.name).to.be.equal(\"Teste Postman\");\r",
+									"    pm.expect(jsonData.login).to.be.equal(\"user_postman\");\r",
+									"    pm.expect(jsonData.password).to.not.be.undefined;\r",
+									"    pm.expect(jsonData.medicalSpecialty).to.be.equal(\"Test Postman\");\r",
+									"    pm.expect(jsonData.medicalRegistration).to.be.equal(\"2235478\");\r",
+									"    pm.expect(jsonData.email).to.be.equal(\"test@gg.com\");\r",
+									"    pm.expect(jsonData.phone).to.be.equal(\"31 98875-3233\");\r",
+									"\r",
+									"    //Assert response status code\r",
+									"    pm.response.to.have.status(201);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: \"localhost:3001/doctors/\" + id,\r",
+									"    method:\"DELETE\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'Authorization': pm.environment.get(\"token\")\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: \"localhost:3001/getDoctor/\" + id,\r",
+									"    method:\"GET\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'Authorization': pm.environment.get(\"token\")\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.expect(pm.responseBody).to.be.equal(undefined);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: \"http://localhost:3001/login\",\r",
+									"    method:\"POST\",\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({ login: \"jmendes\", password: \"1234X\" })\r",
+									"    }\r",
+									"}, function (err, res){\r",
+									"    postman.setEnvironmentVariable(\"token\", res.json().token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Teste Postman\",\r\n    \"login\": \"user_postman\",\r\n    \"password\": \"12345\",\r\n    \"medicalSpecialty\": \"Test Postman\",\r\n    \"medicalRegistration\": \"2235478\",\r\n    \"email\": \"test@gg.com\",\r\n    \"phone\": \"31 98875-3233\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/postDoctor"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "Create Appointment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2024-01-25T14:44:56.905+00:00\",\r\n    \"doctorId\": \"65a7c3ca9492e73cb2ae33ed\",\r\n    \"pacientId\": \"65a5cdebb60f6ce0c41c6dcf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/postAppointment"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Appointment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/getAppointment/659e0f5182923bf214ba7d13"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Appointment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2024-01-13T14:44:56.905Z\",\r\n    \"doctorId\": \"659f79d7b035dccba12b3873\",\r\n    \"pacientId\": \"659e120c4bfd6d9c23dedfb9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/appointments/65a5d041b60f6ce0c41c6ddd"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Appointment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/appointments/65a5d4a5b60f6ce0c41c6df1"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Appointment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3001/appointments",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"appointments"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reschudule",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2024-01-27T10:45:56.095Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/reschedule/65a5d4a5b60f6ce0c41c6df1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pacient",
+			"item": [
+				{
+					"name": "Create Pacient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ana Teixeira\",\r\n    \"birthDate\": \"1993-05-05\",\r\n    \"email\": \"anat@gg.com\",\r\n    \"phone\": \"31 91114-5555\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/postPacient"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Pacient",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/getPacient/65a5cdebb60f6ce0c41c6dcf"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pacient",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"65a5cdebb60f6ce0c41c6dcf\",\r\n    \"name\": \"Maria de Jesus Filha\",\r\n    \"birthDate\": \"1944-05-05T00:00:00.000Z\",\r\n    \"email\": \"mariajf@gg.com\",\r\n    \"phone\": \"32 91114-5555\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/pacients/65a5cdebb60f6ce0c41c6dcf"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prescription",
+			"item": [
+				{
+					"name": "Create Prescription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"date\": \"2024-01-26\",\r\n    \"appointmentId\": \"65a7c5d1338647b902d122cb\",\r\n    \"medicine\": \"Xarope\",\r\n    \"dosage\": \"10ml\",\r\n    \"instructions\":\"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/postPrescription"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Prescription",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/getPrescription/65a5ce3db60f6ce0c41c6dd1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Prescription",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"\",\r\n    \"appointmentId\": \"659e0f5182923bf214ba7d13\",\r\n    \"medicine\": \"Dipirona, Paracetamol\",\r\n    \"dosage\": \"33\",\r\n    \"instructions\": \"A cada 6 horas ou em caso de dor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/prescriptions/65a5ce3db60f6ce0c41c6dd1"
+					},
+					"response": []
+				},
+				{
+					"name": "File",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/generatePrescription/65a7c66d2400a2834369caa6"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"jmendes\",\r\n    \"password\":\"1234X\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3001/login"
+			},
+			"response": []
+		}
+	]
+}
